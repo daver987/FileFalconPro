@@ -74,7 +74,7 @@ def main():
 
     main_window = QMainWindow()
     main_window.setWindowTitle("File Falcon Pro")
-    main_window.setGeometry(100, 100, 320, 240)
+    main_window.setGeometry(100, 100, 640, 480)
 
     layout = QVBoxLayout()
     central_widget = QWidget()
