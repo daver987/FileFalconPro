@@ -18,8 +18,13 @@ def preview_changes(
         for file in files:
             file_ext = os.path.splitext(file)[1]
             if file_ext in selected_types:
-                print(f"Matched file: {file}")
-                # Further logic based on mode, keyword, and match_type
+                if mode == "Advanced":
+                    if match_type == "Contains" and keyword.lower() in file.lower():
+                        print(f"Matched file: {file}")
+                    elif match_type == "Exact Match" and keyword.lower() == file.lower():
+                        print(f"Matched file: {file}")
+                else:
+                    print(f"Matched file: {file}")
 
     # Print preview summary
     print("Preview of changes to be made:")
@@ -40,11 +45,24 @@ def execute_changes(
         for file in files:
             file_ext = os.path.splitext(file)[1]
             if file_ext in selected_types:
-                print(f"Processing file: {file}")
-
-                # TODO: Add your file moving or copying logic here
-                # For example:
-                # shutil.move(src, dest)  # To move
-                # shutil.copy(src, dest)  # To copy
+                if mode == "Advanced":
+                    if match_type == "Contains" and keyword.lower() in file.lower():
+                        print(f"Processing file: {file}")
+                        # TODO: Add your file moving or copying logic here
+                        # For example:
+                        # shutil.move(src, dest)  # To move
+                        # shutil.copy(src, dest)  # To copy
+                    elif match_type == "Exact Match" and keyword.lower() == file.lower():
+                        print(f"Processing file: {file}")
+                        # TODO: Add your file moving or copying logic here
+                        # For example:
+                        # shutil.move(src, dest)  # To move
+                        # shutil.copy(src, dest)  # To copy
+                else:
+                    print(f"Processing file: {file}")
+                    # TODO: Add your file moving or copying logic here
+                    # For example:
+                    # shutil.move(src, dest)  # To move
+                    # shutil.copy(src, dest)  # To copy
 
     print("File organization complete.")
