@@ -90,10 +90,10 @@ def main():
     layout.addWidget(select_dest_folder_button)
 
     radio_standard = QRadioButton("Standard Mode")
+    radio_standard.setChecked(True)
     radio_advanced = QRadioButton("Advanced Mode")
     layout.addWidget(radio_standard)
     layout.addWidget(radio_advanced)
-    radio_standard.setChecked(True)
 
     category_combo = QComboBox()
     category_combo.addItems(["Videos", "Images", "Documents"])
@@ -159,8 +159,18 @@ def main():
             get_selected_types(),
             get_keyword(),
             get_match_type(),
+            get_operation_type(),
         )
     )
+    radio_move = QRadioButton("Move Files")
+    radio_move.setChecked(True)
+    radio_copy = QRadioButton("Copy Files")
+    layout.addWidget(radio_move)
+    layout.addWidget(radio_copy)
+
+    def get_operation_type():
+        return "Move" if radio_move.isChecked() else "Copy"
+
     layout.addWidget(execute_button)
 
     main_window.show()
