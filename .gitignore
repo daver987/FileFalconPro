@@ -161,3 +161,23 @@ cython_debug/
 #.idea/
 
 .aider*
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.pyz
+*.pyzw
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
