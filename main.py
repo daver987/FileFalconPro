@@ -29,9 +29,14 @@ match_type = "Contains"
 
 
 def select_folder():
-    global folder_path
-    folder_path = QFileDialog.getExistingDirectory()
-    print(f"Selected folder: {folder_path}")
+    global source_folder_path
+    source_folder_path = QFileDialog.getExistingDirectory()
+    print(f"Selected source folder: {source_folder_path}")
+
+def select_dest_folder():
+    global dest_folder_path
+    dest_folder_path = QFileDialog.getExistingDirectory()
+    print(f"Selected destination folder: {dest_folder_path}")
 
 
 def update_file_types():
@@ -47,8 +52,12 @@ def update_file_types():
 
 
 def get_selected_folder():
-    global folder_path
-    return folder_path
+    global source_folder_path
+    return source_folder_path
+
+def get_dest_folder():
+    global dest_folder_path
+    return dest_folder_path
 
 
 def main():
@@ -69,9 +78,13 @@ def main():
     main_window.setCentralWidget(central_widget)
     central_widget.setLayout(layout)
 
-    select_folder_button = QPushButton("Select Folder")
+    select_folder_button = QPushButton("Select Source Folder")
     select_folder_button.clicked.connect(select_folder)
     layout.addWidget(select_folder_button)
+
+    select_dest_folder_button = QPushButton("Select Destination Folder")
+    select_dest_folder_button.clicked.connect(select_dest_folder)
+    layout.addWidget(select_dest_folder_button)
 
     radio_standard = QRadioButton("Standard Mode")
     radio_advanced = QRadioButton("Advanced Mode")
@@ -83,7 +96,8 @@ def main():
     category_combo.addItems(["Videos", "Images", "Documents"])
     layout.addWidget(category_combo)
 
-    file_type_combo = QComboBox()
+    file_type_combo = QListWidget()
+    file_type_combo.setSelectionMode(QAbstractItemView.ExtendedSelection)
     layout.addWidget(file_type_combo)
 
     category_combo.currentIndexChanged.connect(update_file_types)
@@ -136,7 +150,7 @@ def main():
     execute_button = QPushButton("Execute")
     execute_button.clicked.connect(
         lambda: execute_changes(
-            folder_path, mode, selected_category, selected_types, keyword, match_type
+            get_selected_folder(), get_dest_folder(), get_selected_mode(), get_selected_category(), get_selected_types(), get_keyword(), get_match_type()
         )
     )
     layout.addWidget(execute_button)
