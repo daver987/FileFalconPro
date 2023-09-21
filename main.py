@@ -20,7 +20,6 @@ video_extensions = [".mp4", ".avi", ".mkv"]
 image_extensions = [".jpg", ".png", ".gif"]
 document_extensions = [".txt", ".pdf", ".docx"]
 
-global folder_path
 folder_path = "some_folder"
 mode = "Standard"
 selected_category = "Videos"
@@ -80,20 +79,16 @@ def main():
     layout.addWidget(radio_advanced)
     radio_standard.setChecked(True)
 
-    # Category selection combo box
     category_combo = QComboBox()
     category_combo.addItems(["Videos", "Images", "Documents"])
     layout.addWidget(category_combo)
 
-    # File type selection combo box
     file_type_combo = QComboBox()
     layout.addWidget(file_type_combo)
 
-    # Update file types when category changes
     category_combo.currentIndexChanged.connect(update_file_types)
-    update_file_types()  # Initialize with default category's file types
+    update_file_types()
 
-    # Advanced Mode Interface
     advanced_label = QLabel("Advanced Mode:")
     layout.addWidget(advanced_label)
 
