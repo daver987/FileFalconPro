@@ -31,7 +31,7 @@ def preview_changes(
 
 
 def execute_changes(
-    folder_path, mode, selected_category, selected_types, keyword, match_type
+    folder_path, dest_folder_path, mode, selected_category, selected_types, keyword, match_type
 ):
     print("Executing changes:")
 
@@ -42,19 +42,19 @@ def execute_changes(
                 if mode == "Advanced":
                     if match_type == "Contains" and keyword.lower() in file.lower():
                         print(f"Processing file: {file}")
-                        dest = os.path.join(folder_path, selected_category)
+                        dest = os.path.join(dest_folder_path, selected_category)
                         os.makedirs(dest, exist_ok=True)
                         shutil.move(os.path.join(root, file), os.path.join(dest, file))
                     elif (
                         match_type == "Exact Match" and keyword.lower() == file.lower()
                     ):
                         print(f"Processing file: {file}")
-                        dest = os.path.join(folder_path, selected_category)
+                        dest = os.path.join(dest_folder_path, selected_category)
                         os.makedirs(dest, exist_ok=True)
                         shutil.move(os.path.join(root, file), os.path.join(dest, file))
                 else:
                     print(f"Processing file: {file}")
-                    dest = os.path.join(folder_path, selected_category)
+                    dest = os.path.join(dest_folder_path, selected_category)
                     os.makedirs(dest, exist_ok=True)
                     shutil.move(os.path.join(root, file), os.path.join(dest, file))
 
