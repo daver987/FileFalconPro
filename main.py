@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QLabel,
     QLineEdit,
+    QListWidget,
 )
 from modules.file_operations import preview_changes, execute_changes
 import sys
@@ -33,6 +34,7 @@ def select_folder():
     source_folder_path = QFileDialog.getExistingDirectory()
     print(f"Selected source folder: {source_folder_path}")
 
+
 def select_dest_folder():
     global dest_folder_path
     dest_folder_path = QFileDialog.getExistingDirectory()
@@ -55,6 +57,7 @@ def get_selected_folder():
     global source_folder_path
     return source_folder_path
 
+
 def get_dest_folder():
     global dest_folder_path
     return dest_folder_path
@@ -64,8 +67,8 @@ def main():
     global category_combo, file_type_combo
 
     def get_selected_types():
-        global file_type_combo
-        return file_type_combo.currentText()
+        selected_items = file_type_combo.selectedItems()
+        return [item.text() for item in selected_items]
 
     app = QApplication(sys.argv)
 
@@ -97,7 +100,7 @@ def main():
     layout.addWidget(category_combo)
 
     file_type_combo = QListWidget()
-    file_type_combo.setSelectionMode(QAbstractItemView.ExtendedSelection)
+    file_type_combo.setSelectionMode(QListWidget.SelectionMode.MultiSelection)
     layout.addWidget(file_type_combo)
 
     category_combo.currentIndexChanged.connect(update_file_types)
@@ -150,7 +153,13 @@ def main():
     execute_button = QPushButton("Execute")
     execute_button.clicked.connect(
         lambda: execute_changes(
-            get_selected_folder(), get_dest_folder(), get_selected_mode(), get_selected_category(), get_selected_types(), get_keyword(), get_match_type()
+            get_selected_folder(),
+            get_dest_folder(),
+            get_selected_mode(),
+            get_selected_category(),
+            get_selected_types(),
+            get_keyword(),
+            get_match_type(),
         )
     )
     layout.addWidget(execute_button)
