@@ -21,12 +21,12 @@ image_extensions = [".jpg", ".png", ".gif"]
 document_extensions = [".txt", ".pdf", ".docx"]
 
 global folder_path
-folder_path = "some_folder"  # This will come from the folder selection dialog
-mode = "Standard"  # This will come from the radio buttons
-selected_category = "Videos"  # This will come from the category combo box
-selected_types = [".mp4", ".avi"]  # This will come from the types combo box
-keyword = "sample"  # This will come from the keyword text box
-match_type = "Contains"  # This will come from the match type radio buttons
+folder_path = "some_folder"
+mode = "Standard"
+selected_category = "Videos"
+selected_types = [".mp4", ".avi"]
+keyword = "sample"
+match_type = "Contains"
 
 
 def select_folder():
@@ -45,6 +45,11 @@ def update_file_types():
         file_type_combo.addItems(image_extensions)
     elif selected_category == "Documents":
         file_type_combo.addItems(document_extensions)
+
+
+def get_selected_folder():
+    global folder_path
+    return folder_path
 
 
 def main():
@@ -111,7 +116,7 @@ def main():
         global radio_contains, radio_exact
         return "Contains" if radio_contains.isChecked() else "Exact Match"
 
-    radio_contains.setChecked(True)  # Default to "Contains"
+    radio_contains.setChecked(True)
 
     def get_selected_category():
         return category_combo.currentText()
@@ -122,12 +127,12 @@ def main():
     preview_button = QPushButton("Preview")
     preview_button.clicked.connect(
         lambda: preview_changes(
-            get_selected_folder(),  # This function needs to be implemented
+            get_selected_folder(),
             get_selected_mode(),
             get_selected_category(),
-            get_selected_types(),  # This function needs to be implemented
-            get_keyword(),  # This function needs to be implemented
-            get_match_type(),  # This function needs to be implemented
+            get_selected_types(),
+            get_keyword(),
+            get_match_type(),
         )
     )
 
@@ -148,6 +153,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-def get_selected_folder():
-    global folder_path
-    return folder_path
