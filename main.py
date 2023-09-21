@@ -20,6 +20,7 @@ video_extensions = [".mp4", ".avi", ".mkv"]
 image_extensions = [".jpg", ".png", ".gif"]
 document_extensions = [".txt", ".pdf", ".docx"]
 
+global folder_path
 folder_path = "some_folder"  # This will come from the folder selection dialog
 mode = "Standard"  # This will come from the radio buttons
 selected_category = "Videos"  # This will come from the category combo box
@@ -29,6 +30,7 @@ match_type = "Contains"  # This will come from the match type radio buttons
 
 
 def select_folder():
+    global folder_path
     folder_path = QFileDialog.getExistingDirectory()
     print(f"Selected folder: {folder_path}")
 
@@ -47,6 +49,10 @@ def update_file_types():
 
 def main():
     global category_combo, file_type_combo
+
+    def get_selected_types():
+        global file_type_combo
+        return file_type_combo.currentText()
 
     app = QApplication(sys.argv)
 
@@ -86,14 +92,24 @@ def main():
     advanced_label = QLabel("Advanced Mode:")
     layout.addWidget(advanced_label)
 
+    global keyword_entry
     keyword_entry = QLineEdit()
     keyword_entry.setPlaceholderText("Enter keyword or filename")
     layout.addWidget(keyword_entry)
 
+    def get_keyword():
+        global keyword_entry
+        return keyword_entry.text()
+
+    global radio_contains, radio_exact
     radio_contains = QRadioButton("Contains")
     radio_exact = QRadioButton("Exact Match")
     layout.addWidget(radio_contains)
     layout.addWidget(radio_exact)
+
+    def get_match_type():
+        global radio_contains, radio_exact
+        return "Contains" if radio_contains.isChecked() else "Exact Match"
 
     radio_contains.setChecked(True)  # Default to "Contains"
 
@@ -132,3 +148,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+def get_selected_folder():
+    global folder_path
+    return folder_path
