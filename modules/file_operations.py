@@ -48,21 +48,18 @@ def execute_changes(
                 if mode == "Advanced":
                     if match_type == "Contains" and keyword.lower() in file.lower():
                         print(f"Processing file: {file}")
-                        # TODO: Add your file moving or copying logic here
-                        # For example:
-                        # shutil.move(src, dest)  # To move
-                        # shutil.copy(src, dest)  # To copy
+                        dest = os.path.join(folder_path, selected_category)
+                        os.makedirs(dest, exist_ok=True)
+                        shutil.move(os.path.join(root, file), os.path.join(dest, file))
                     elif match_type == "Exact Match" and keyword.lower() == file.lower():
                         print(f"Processing file: {file}")
-                        # TODO: Add your file moving or copying logic here
-                        # For example:
-                        # shutil.move(src, dest)  # To move
-                        # shutil.copy(src, dest)  # To copy
+                        dest = os.path.join(folder_path, selected_category)
+                        os.makedirs(dest, exist_ok=True)
+                        shutil.move(os.path.join(root, file), os.path.join(dest, file))
                 else:
                     print(f"Processing file: {file}")
-                    # TODO: Add your file moving or copying logic here
-                    # For example:
-                    # shutil.move(src, dest)  # To move
-                    # shutil.copy(src, dest)  # To copy
+                    dest = os.path.join(folder_path, selected_category)
+                    os.makedirs(dest, exist_ok=True)
+                    shutil.move(os.path.join(root, file), os.path.join(dest, file))
 
     print("File organization complete.")
