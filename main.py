@@ -145,7 +145,6 @@ def main():
             get_selected_types(),
             get_keyword(),
             get_match_type(),
-        )
     )
 
     layout.addWidget(preview_button)
