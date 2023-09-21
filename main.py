@@ -12,6 +12,9 @@ from PyQt6.QtWidgets import (
 )
 from modules.file_operations import preview_changes, execute_changes
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 video_extensions = [".mp4", ".avi", ".mkv"]
 image_extensions = [".jpg", ".png", ".gif"]
