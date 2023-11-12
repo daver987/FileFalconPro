@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import (
     QListWidget,
 )
 
-from modules.file_extensions import (
+from operations.file_extensions import (
     video_basic,
     video_all,
     image_basic,
