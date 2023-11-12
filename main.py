@@ -27,16 +27,9 @@ from operations.file_extensions import (
 )
 from operations.file_operations import preview_changes, execute_changes
 import sys
-from dotenv import load_dotenv
+from config import Config
 
-load_dotenv()
-
-folder_path = "some_folder"
-mode = "Standard"
-selected_category = "Videos"
-selected_types = [".mp4", ".avi"]
-keyword = "sample"
-match_type = "Contains"
+config = Config()
 
 
 def select_folder():
