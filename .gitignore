@@ -175,6 +175,7 @@ __pycache__/
 env/
 venv/
 ENV/
+FileFalconEnv/
 
 # PyCharm
 .idea/
