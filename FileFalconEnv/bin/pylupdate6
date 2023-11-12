@@ -1,4 +1,4 @@
-#!/Users/m1mbp/PycharmProjects/FileFalconPro/FileFalconEnv/bin/python3.11
+#!/Users/m1mbp/PycharmProjects/FileFalconPro/FileFalconEnv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
