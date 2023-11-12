@@ -7,8 +7,9 @@ from PyQt6.QtWidgets import (
     QLabel,
     QLineEdit,
     QListWidget,
-    QRadioButton
+    QRadioButton,
 )
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
