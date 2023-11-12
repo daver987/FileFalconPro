@@ -11,15 +11,25 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QListWidget,
 )
+
+from modules.file_extensions import (
+    video_basic,
+    video_all,
+    image_basic,
+    image_all,
+    spreadsheet,
+    layout,
+    database,
+    design,
+    markup,
+    pdf_documents,
+    text,
+)
 from modules.file_operations import preview_changes, execute_changes
 import sys
 from dotenv import load_dotenv
 
 load_dotenv()
-
-video_extensions = [".mp4", ".avi", ".mkv"]
-image_extensions = [".jpg", ".png", ".gif"]
-document_extensions = [".txt", ".pdf", ".docx"]
 
 folder_path = "some_folder"
 mode = "Standard"
@@ -41,16 +51,50 @@ def select_dest_folder():
     print(f"Selected destination folder: {dest_folder_path}")
 
 
-def update_file_types():
+def update_file_types(presentation=None):
     selected_category = category_combo.currentText()
     file_type_combo.clear()
 
-    if selected_category == "Videos":
-        file_type_combo.addItems(video_extensions)
-    elif selected_category == "Images":
-        file_type_combo.addItems(image_extensions)
-    elif selected_category == "Documents":
-        file_type_combo.addItems(document_extensions)
+    if selected_category == "Video Basic":
+        file_type_combo.addItems(video_basic)
+    elif selected_category == "Video All":
+        file_type_combo.addItems(video_all)
+    elif selected_category == "Image Basic":
+        file_type_combo.addItems(image_basic)
+    elif selected_category == "Image All":
+        file_type_combo.addItems(image_all)
+    elif selected_category == "Text":
+        file_type_combo.addItems(text)
+    elif selected_category == "Spreadsheet":
+        file_type_combo.addItems(spreadsheet)
+    elif selected_category == "PDF":
+        file_type_combo.addItems(pdf_documents)
+    elif selected_category == "Presentation":
+        file_type_combo.addItems(presentation)
+    elif selected_category == "Layout":
+        file_type_combo.addItems(layout)
+    elif selected_category == "Database":
+        file_type_combo.addItems(database)
+    elif selected_category == "Design":
+        file_type_combo.addItems(design)
+    elif selected_category == "Markup":
+        file_type_combo.addItems(markup)
+
+
+formats = [
+    "Video Basic",
+    "Video All",
+    "Image Basic",
+    "Image All",
+    "Text",
+    "Spreadsheet",
+    "PDF",
+    "Presentation",
+    "Layout",
+    "Database",
+    "Design",
+    "Markup",
+]
 
 
 def get_selected_folder():
@@ -96,7 +140,7 @@ def main():
     layout.addWidget(radio_advanced)
 
     category_combo = QComboBox()
-    category_combo.addItems(["Videos", "Images", "Documents"])
+    category_combo.addItems(formats)
     layout.addWidget(category_combo)
 
     file_type_combo = QListWidget()

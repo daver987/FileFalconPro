@@ -31,7 +31,14 @@ def preview_changes(
 
 
 def execute_changes(
-    folder_path, dest_folder_path, mode, selected_category, selected_types, keyword, match_type, operation_type
+    folder_path,
+    dest_folder_path,
+    mode,
+    selected_category,
+    selected_types,
+    keyword,
+    match_type,
+    operation_type,
 ):
     print("Executing changes:")
 
@@ -45,9 +52,13 @@ def execute_changes(
                         dest = os.path.join(dest_folder_path, selected_category)
                         os.makedirs(dest, exist_ok=True)
                         if operation_type == "Move":
-                            shutil.move(os.path.join(root, file), os.path.join(dest, file))
+                            shutil.move(
+                                os.path.join(root, file), os.path.join(dest, file)
+                            )
                         else:
-                            shutil.copy(os.path.join(root, file), os.path.join(dest, file))
+                            shutil.copy(
+                                os.path.join(root, file), os.path.join(dest, file)
+                            )
                     elif (
                         match_type == "Exact Match" and keyword.lower() == file.lower()
                     ):
@@ -55,9 +66,13 @@ def execute_changes(
                         dest = os.path.join(dest_folder_path, selected_category)
                         os.makedirs(dest, exist_ok=True)
                         if operation_type == "Move":
-                            shutil.move(os.path.join(root, file), os.path.join(dest, file))
+                            shutil.move(
+                                os.path.join(root, file), os.path.join(dest, file)
+                            )
                         else:
-                            shutil.copy(os.path.join(root, file), os.path.join(dest, file))
+                            shutil.copy(
+                                os.path.join(root, file), os.path.join(dest, file)
+                            )
                 else:
                     print(f"Processing file: {file}")
                     dest = os.path.join(dest_folder_path, selected_category)
