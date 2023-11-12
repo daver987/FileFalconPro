@@ -33,13 +33,15 @@ config = Config()
 
 
 def select_folder():
-    config.source_folder_path = QFileDialog.getExistingDirectory()
-    print(f"Selected source folder: {config.source_folder_path}")
+    folder_path = QFileDialog.getExistingDirectory()
+    config.set_source_folder_path(folder_path)
+    print(f"Selected source folder: {config.get_source_folder_path()}")
 
 
 def select_dest_folder():
-    config.dest_folder_path = QFileDialog.getExistingDirectory()
-    print(f"Selected destination folder: {config.dest_folder_path}")
+    folder_path = QFileDialog.getExistingDirectory()
+    config.set_dest_folder_path(folder_path)
+    print(f"Selected destination folder: {config.get_dest_folder_path()}")
 
 
 def update_file_types(presentation=None):
@@ -89,11 +91,11 @@ formats = [
 
 
 def get_selected_folder():
-    return config.source_folder_path
+    return config.get_source_folder_path()
 
 
 def get_dest_folder():
-    return config.dest_folder_path
+    return config.get_dest_folder_path()
 
 
 def main():
