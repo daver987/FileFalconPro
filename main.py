@@ -25,7 +25,7 @@ from modules.file_extensions import (
     pdf_documents,
     text,
 )
-from modules.file_operations import preview_changes, execute_changes
+from operations.file_operations import preview_changes, execute_changes
 import sys
 from dotenv import load_dotenv
 
