@@ -23,19 +23,17 @@ class Config:
 
     # The rest of the methods remain unchanged
 
-    def select_folder(self):
-        # This method will be used to select the source folder
-        pass
+    def set_source_folder_path(self, path):
+        self._source_folder_path = path
 
-    def select_dest_folder(self):
-        # This method will be used to select the destination folder
-        pass
+    def get_source_folder_path(self):
+        return self._source_folder_path
 
-    def get_selected_folder(self):
-        return self.source_folder_path
+    def set_dest_folder_path(self, path):
+        self._dest_folder_path = path
 
-    def get_dest_folder(self):
-        return self.dest_folder_path
+    def get_dest_folder_path(self):
+        return self._dest_folder_path
 
     def update_file_types(self, presentation=None):
         # This method will be used to update the file types based on the selected category
