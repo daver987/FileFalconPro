@@ -13,8 +13,29 @@ PyQt6-sip = "^13.6.0"
 PyQt6 = "^6.7.0"
 python-dotenv = "^1.0.1"
 pydantic = "^2.7.2"
+ruff = "^0.5.1"
+rich = "^13.7.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+lint.fixable = ["ALL"]
+lint.select = [
+    "E",
+    "F",
+    "I"
+]
+line-length = 100
+lint.ignore = [
+    "E203",
+    "E501",
+    "E231",
+]
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+docstring-code-format = true
+docstring-code-line-length = 20
