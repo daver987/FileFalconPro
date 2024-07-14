@@ -1,3 +1,4 @@
+from typing import Optional
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -11,7 +12,6 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QListWidget,
 )
-
 from operations.file_extensions import (
     video_basic,
     video_all,
@@ -24,53 +24,61 @@ from operations.file_extensions import (
     markup,
     pdf_documents,
     text,
+    json_documents,
 )
-from operations.file_operations import preview_changes, execute_changes
+from operations.file_operations import (
+    preview_changes,
+    execute_changes,
+    FileOperationConfig,
+)
 import sys
 from config import Config
 
 config = Config()
 
 
-def select_folder():
+def select_folder() -> None:
     folder_path = QFileDialog.getExistingDirectory()
     config.set_source_folder_path(folder_path)
     print(f"Selected source folder: {config.get_source_folder_path()}")
 
 
-def select_dest_folder():
+def select_dest_folder() -> None:
     folder_path = QFileDialog.getExistingDirectory()
     config.set_dest_folder_path(folder_path)
     print(f"Selected destination folder: {config.get_dest_folder_path()}")
 
 
-def update_file_types(presentation=None):
+def update_file_types(presentation=None) -> None:
     selected_category = category_combo.currentText()
     file_type_combo.clear()
 
-    if selected_category == "Video Basic":
+    if selected_category == "Video Basic" and video_basic is not None:
         file_type_combo.addItems(video_basic)
-    elif selected_category == "Video All":
+    elif selected_category == "Video All" and video_all is not None:
         file_type_combo.addItems(video_all)
-    elif selected_category == "Image Basic":
+    elif selected_category == "Image Basic" and image_basic is not None:
         file_type_combo.addItems(image_basic)
-    elif selected_category == "Image All":
+    elif selected_category == "Image All" and image_all is not None:
         file_type_combo.addItems(image_all)
-    elif selected_category == "Text":
+    elif selected_category == "Text" and text is not None:
         file_type_combo.addItems(text)
-    elif selected_category == "Spreadsheet":
+    elif selected_category == "JSON" and json_documents is not None:
+        file_type_combo.addItems(json_documents)
+    elif selected_category == "Spreadsheet" and spreadsheet is not None:
         file_type_combo.addItems(spreadsheet)
     elif selected_category == "PDF":
-        file_type_combo.addItems(pdf_documents)
-    elif selected_category == "Presentation":
-        file_type_combo.addItems(presentation)
-    elif selected_category == "Layout":
-        file_type_combo.addItems(layout)
-    elif selected_category == "Database":
-        file_type_combo.addItems(database)
-    elif selected_category == "Design":
+        if pdf_documents is not None:
+            file_type_combo.addItems(pdf_documents)
+        if presentation is not None:
+            file_type_combo.addItems(presentation)
+        if layout is not None:
+            file_type_combo.addItems(layout)
+        if database is not None:
+            file_type_combo.addItems(database)
+    elif selected_category == "Design" and design is not None:
         file_type_combo.addItems(design)
-    elif selected_category == "Markup":
+    elif selected_category == "Markup" and markup is not None:
         file_type_combo.addItems(markup)
 
 
@@ -80,6 +88,7 @@ formats = [
     "Image Basic",
     "Image All",
     "Text",
+    "JSON",
     "Spreadsheet",
     "PDF",
     "Presentation",
@@ -90,18 +99,24 @@ formats = [
 ]
 
 
-def get_selected_folder():
-    return config.get_source_folder_path()
+def get_selected_folder() -> str:
+    folder_path: Optional[str] = config.get_source_folder_path()
+    if folder_path is None:
+        raise ValueError("Source folder path is not set.")
+    return folder_path
 
 
-def get_dest_folder():
-    return config.get_dest_folder_path()
+def get_dest_folder() -> str:
+    folder_path: Optional[str] = config.get_dest_folder_path()
+    if folder_path is None:
+        raise ValueError("Destination folder path is not set.")
+    return folder_path
 
 
-def main():
+def main() -> None:
     global category_combo, file_type_combo
 
-    def get_selected_types():
+    def get_selected_types() -> list[str]:
         selected_items = file_type_combo.selectedItems()
         return [item.text() for item in selected_items]
 
@@ -149,7 +164,7 @@ def main():
     keyword_entry.setPlaceholderText("Enter keyword or filename")
     layout.addWidget(keyword_entry)
 
-    def get_keyword():
+    def get_keyword() -> str:
         global keyword_entry
         return keyword_entry.text()
 
@@ -159,55 +174,60 @@ def main():
     layout.addWidget(radio_contains)
     layout.addWidget(radio_exact)
 
-    def get_match_type():
+    def get_match_type() -> str:
         global radio_contains, radio_exact
         return "Contains" if radio_contains.isChecked() else "Exact Match"
 
     radio_contains.setChecked(True)
 
-    def get_selected_category():
+    def get_selected_category() -> str:
         return category_combo.currentText()
 
-    def get_selected_mode():
+    def get_selected_mode() -> str:
         return "Standard" if radio_standard.isChecked() else "Advanced"
+
+    def get_operation_type() -> str:
+        return "Move" if radio_move.isChecked() else "Copy"
 
     preview_button = QPushButton("Preview")
     preview_button.clicked.connect(
         lambda: preview_changes(
-            get_selected_folder(),
-            get_selected_mode(),
-            get_selected_category(),
-            get_selected_types(),
-            get_keyword(),
-            get_match_type(),
+            FileOperationConfig(
+                folder_path=get_selected_folder(),
+                dest_folder_path=get_dest_folder(),
+                mode="Advanced" if radio_advanced.isChecked() else "Basic",
+                selected_category=get_selected_category(),
+                selected_types=get_selected_types(),
+                keyword=get_keyword(),
+                match_type="Contains" if radio_contains.isChecked() else "Exact Match",
+                operation_type="Move" if radio_move.isChecked() else "Copy",
+            )
         )
     )
-
     layout.addWidget(preview_button)
 
     execute_button = QPushButton("Execute")
     execute_button.clicked.connect(
         lambda: execute_changes(
-            get_selected_folder(),
-            get_dest_folder(),
-            get_selected_mode(),
-            get_selected_category(),
-            get_selected_types(),
-            get_keyword(),
-            get_match_type(),
-            get_operation_type(),
+            FileOperationConfig(
+                folder_path=get_selected_folder(),
+                dest_folder_path=get_dest_folder(),
+                mode="Advanced" if radio_advanced.isChecked() else "Basic",
+                selected_category=get_selected_category(),
+                selected_types=get_selected_types(),
+                keyword=get_keyword(),
+                match_type="Contains" if radio_contains.isChecked() else "Exact Match",
+                operation_type="Move" if radio_move.isChecked() else "Copy",
+            )
         )
     )
+    layout.addWidget(execute_button)
+
     radio_move = QRadioButton("Move Files")
     radio_move.setChecked(True)
     radio_copy = QRadioButton("Copy Files")
     layout.addWidget(radio_move)
     layout.addWidget(radio_copy)
-
-    def get_operation_type():
-        return "Move" if radio_move.isChecked() else "Copy"
-
-    layout.addWidget(execute_button)
 
     main_window.show()
 

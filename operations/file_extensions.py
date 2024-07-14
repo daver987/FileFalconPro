@@ -86,6 +86,8 @@ image_basic = [
     ".ico",
     ".jfif",
     ".webp",
+    ".heic",
+    ".HEIC",
     ".svg",
     ".JPG",
     ".JPEG",
@@ -199,6 +201,7 @@ presentations = [
     ".KEY",
     ".PPS",
 ]
+json_documents = [".json", ".JSON"]
 pdf_documents = [".pdf", ".PDF", ".md", ".MD"]
 layout = [".indd", ".pmd", ".pub", ".INDD", ".PMD", ".PUB"]
 database = [
